@@ -1,0 +1,28 @@
+package com.example.cursosms.model;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.List;
+import java.util.UUID;
+
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@EqualsAndHashCode
+@ToString
+@Table(name = "alunos")
+public class Aluno {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false, unique = true)
+    private UUID usuarioId;
+
+    @ManyToMany(mappedBy = "alunos", cascade = CascadeType.REMOVE)
+    private List<Curso> cursos;
+}
