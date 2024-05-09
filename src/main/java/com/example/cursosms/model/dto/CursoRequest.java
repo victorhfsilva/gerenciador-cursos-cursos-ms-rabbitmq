@@ -21,7 +21,7 @@ public record CursoRequest (
         Integer cargaHoraria,
 
         @NotNull
-        UUID professorUsuarioId
+        UUID professor
 ){
 
 }
