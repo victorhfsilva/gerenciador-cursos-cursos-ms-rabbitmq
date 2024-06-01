@@ -1,11 +1,13 @@
 package com.example.cursosms.service.impl;
 
+import com.example.cursosms.controller.AlunoController;
 import com.example.cursosms.mapper.AlunoAlunoRequestMapper;
 import com.example.cursosms.mapper.AlunoAlunoResourceMapper;
 import com.example.cursosms.model.Aluno;
 import com.example.cursosms.model.dto.AlunoRequest;
 import com.example.cursosms.model.resource.AlunoResource;
 import com.example.cursosms.repository.AlunoRepository;
+import com.example.cursosms.service.IAlunoService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -14,9 +16,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 @Service
 @AllArgsConstructor
-public class AlunoService {
+public class AlunoService implements IAlunoService {
 
     private AlunoRepository alunoRepository;
     private AlunoAlunoRequestMapper alunoAlunoRequestMapper;
@@ -31,7 +36,8 @@ public class AlunoService {
 
         AlunoResource alunoResource = alunoAlunoResourceMapper.alunoToAlunoResource(alunoSalvo);
 
-        //Link to Self
+        alunoResource.add(linkTo(methodOn(AlunoController.class).registrarAluno(alunoDto)).withSelfRel());
+
         //Link to Cursos do Aluno
 
         return alunoResource;
@@ -42,7 +48,7 @@ public class AlunoService {
 
         AlunoResource alunoResource = alunoAlunoResourceMapper.alunoToAlunoResource(aluno);
 
-        //Link to Self
+        alunoResource.add(linkTo(methodOn(AlunoController.class).buscarAlunoPorId(usuarioId)).withSelfRel());
         //Link to Cursos do Aluno
 
         return alunoResource;
@@ -54,9 +60,11 @@ public class AlunoService {
         Page<AlunoResource> alunoResources = alunos
                 .map(aluno ->
                         alunoAlunoResourceMapper
-                                .alunoToAlunoResource(aluno));
+                                .alunoToAlunoResource(aluno)
+                                .add(linkTo(methodOn(AlunoController.class)
+                                        .buscarAlunoPorId(aluno.getUsuarioId()))
+                                        .withSelfRel()));
 
-        //Link to Self
         //Link to Cursos do Aluno
 
         return alunoResources;
@@ -68,9 +76,11 @@ public class AlunoService {
         Page<AlunoResource> alunoResources = alunos
                 .map(aluno ->
                         alunoAlunoResourceMapper
-                                .alunoToAlunoResource(aluno));
+                                .alunoToAlunoResource(aluno)
+                                .add(linkTo(methodOn(AlunoController.class)
+                                        .buscarAlunoPorId(aluno.getUsuarioId()))
+                                        .withSelfRel()));
 
-        //Link to Self
         //Link to Cursos do Aluno
 
         return alunoResources;
@@ -84,7 +94,7 @@ public class AlunoService {
 
         AlunoResource alunoResource = alunoAlunoResourceMapper.alunoToAlunoResource(aluno);
 
-        //Link to Self
+        alunoResource.add(linkTo(methodOn(AlunoController.class).deletarAluno(id)).withSelfRel());
 
         return alunoResource;
     }

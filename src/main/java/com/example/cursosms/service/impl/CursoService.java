@@ -10,6 +10,7 @@ import com.example.cursosms.model.resource.CursoResource;
 import com.example.cursosms.repository.AlunoRepository;
 import com.example.cursosms.repository.CursoRepository;
 import com.example.cursosms.repository.ProfessorRepository;
+import com.example.cursosms.service.ICursoService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,7 +22,7 @@ import java.util.UUID;
 
 @Service
 @AllArgsConstructor
-public class CursoService {
+public class CursoService implements ICursoService {
 
     private CursoRepository cursoRepository;
     private CursoCursoRequestMapper cursoCursoRequestMapper;

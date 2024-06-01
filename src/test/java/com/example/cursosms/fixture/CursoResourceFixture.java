@@ -14,8 +14,6 @@ public interface CursoResourceFixture {
                 .id(1L)
                 .nome("Java")
                 .descricao("Curso de Java")
-                .cargaHoraria(40)
-                .professor(ProfessorResourceFixture.buildValido())
-                .alunos(List.of(AlunoResourceFixture.buildValido()));
+                .cargaHoraria(40);
     }
 }

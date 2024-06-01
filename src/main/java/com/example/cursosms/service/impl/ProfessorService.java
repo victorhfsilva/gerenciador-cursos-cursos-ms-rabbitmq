@@ -1,11 +1,13 @@
 package com.example.cursosms.service.impl;
 
+import com.example.cursosms.controller.ProfessorController;
 import com.example.cursosms.mapper.ProfessorProfessorRequestMapper;
 import com.example.cursosms.mapper.ProfessorProfessorResourceMapper;
 import com.example.cursosms.model.Professor;
 import com.example.cursosms.model.dto.ProfessorRequest;
 import com.example.cursosms.model.resource.ProfessorResource;
 import com.example.cursosms.repository.ProfessorRepository;
+import com.example.cursosms.service.IProfessorService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -14,9 +16,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 @Service
 @AllArgsConstructor
-public class ProfessorService {
+public class ProfessorService implements IProfessorService {
 
     private ProfessorRepository professorRepository;
     private ProfessorProfessorRequestMapper professorProfessorRequestMapper;
@@ -31,7 +36,7 @@ public class ProfessorService {
         ProfessorResource professorResource = professorProfessorResourceMapper
                 .professorToProfessorResource(professorSalvo);
 
-        //Link to Self
+        professorResource.add(linkTo(methodOn(ProfessorController.class).registrarProfessor(professorDto)).withSelfRel());
         //Link to Cursos do Professor
 
         return professorResource;
@@ -43,7 +48,7 @@ public class ProfessorService {
         ProfessorResource professorResource = professorProfessorResourceMapper
                 .professorToProfessorResource(professor);
 
-        //Link to Self
+        professorResource.add(linkTo(methodOn(ProfessorController.class).buscarProfessorPorId(usuarioId)).withSelfRel());
         //Link to Cursos do Professor
 
         return professorResource;
@@ -55,9 +60,11 @@ public class ProfessorService {
         Page<ProfessorResource> professorResources = professors
                 .map(professor ->
                         professorProfessorResourceMapper
-                                .professorToProfessorResource(professor));
+                                .professorToProfessorResource(professor)
+                                .add(linkTo(methodOn(ProfessorController.class)
+                                        .buscarProfessorPorId(professor.getUsuarioId())).withSelfRel())
+                );
 
-        //Link to Self
         //Link to Cursos do Professor
 
         return professorResources;
@@ -72,7 +79,7 @@ public class ProfessorService {
         ProfessorResource professorResource = professorProfessorResourceMapper
                 .professorToProfessorResource(professor);
 
-        //Link to Self
+        professorResource.add(linkTo(methodOn(ProfessorController.class).deletarProfessor(id)).withSelfRel());
 
         return professorResource;
     }
