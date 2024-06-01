@@ -15,6 +15,4 @@ public class CursoResource extends RepresentationModel<CursoResource> {
     private String nome;
     private String descricao;
     private Integer cargaHoraria;
-    private ProfessorResource professor;
-    private List<AlunoResource> alunos;
 }

@@ -10,4 +10,5 @@ import java.util.UUID;
 @Repository
 public interface ProfessorRepository extends JpaRepository<Professor, Long> {
     Optional<Professor> findByUsuarioId(UUID usuarioId);
+
 }
