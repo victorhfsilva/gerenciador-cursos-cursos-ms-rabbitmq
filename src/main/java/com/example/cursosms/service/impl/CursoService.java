@@ -1,5 +1,8 @@
 package com.example.cursosms.service.impl;
 
+import com.example.cursosms.controller.AlunoController;
+import com.example.cursosms.controller.CursoController;
+import com.example.cursosms.controller.ProfessorController;
 import com.example.cursosms.mapper.CursoCursoRequestMapper;
 import com.example.cursosms.mapper.CursoCursoResourceMapper;
 import com.example.cursosms.model.Aluno;
@@ -19,6 +22,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Service
 @AllArgsConstructor
@@ -40,9 +46,9 @@ public class CursoService implements ICursoService {
 
         CursoResource cursoResource = cursoCursoResourceMapper.cursoToCursoResource(cursoSalvo);
 
-        //Link to Self
-        //Link to Professor
-        //Link to Alunos do Curso
+        cursoResource.add(linkTo(methodOn(CursoController.class).registrarCurso(cursoDto)).withSelfRel());
+        cursoResource.add(linkTo(methodOn(ProfessorController.class).buscarProfessorPorId(cursoDto.professor())).withRel("professor"));
+        cursoResource.add(linkTo(methodOn(AlunoController.class).buscarAlunosPorCursoId(cursoSalvo.getId(), Pageable.unpaged())).withRel("alunos"));
 
         return cursoResource;
     }
@@ -52,9 +58,9 @@ public class CursoService implements ICursoService {
 
         CursoResource cursoResource = cursoCursoResourceMapper.cursoToCursoResource(curso);
 
-        //Link to Self
-        //Link to Professor
-        //Link to Alunos do Curso
+        cursoResource.add(linkTo(methodOn(CursoController.class).buscarCursoPorId(id)).withSelfRel());
+        cursoResource.add(linkTo(methodOn(ProfessorController.class).buscarProfessorPorId(curso.getProfessor().getUsuarioId())).withRel("professor"));
+        cursoResource.add(linkTo(methodOn(AlunoController.class).buscarAlunosPorCursoId(curso.getId(), Pageable.unpaged())).withRel("alunos"));
 
         return cursoResource;
     }
@@ -65,11 +71,16 @@ public class CursoService implements ICursoService {
         Page<CursoResource> cursoResources = cursos
                 .map(curso ->
                         cursoCursoResourceMapper
-                                .cursoToCursoResource(curso));
-
-        //Link to Self
-        //Link to Professor
-        //Link to Alunos do Curso
+                                .cursoToCursoResource(curso)
+                                .add(linkTo(methodOn(CursoController.class)
+                                        .buscarCursoPorId(curso.getId()))
+                                        .withSelfRel())
+                                .add(linkTo(methodOn(ProfessorController.class)
+                                        .buscarProfessorPorId(professorId))
+                                        .withRel("professor"))
+                                .add(linkTo(methodOn(AlunoController.class)
+                                        .buscarAlunosPorCursoId(curso.getId(), Pageable.unpaged()))
+                                        .withRel("alunos")));
 
         return cursoResources;
     }
@@ -80,11 +91,16 @@ public class CursoService implements ICursoService {
         Page<CursoResource> cursoResources = cursos
                 .map(curso ->
                         cursoCursoResourceMapper
-                                .cursoToCursoResource(curso));
-
-        //Link to Self
-        //Link to Professor
-        //Link to Alunos do Curso
+                                .cursoToCursoResource(curso)
+                                .add(linkTo(methodOn(CursoController.class)
+                                        .buscarCursoPorId(curso.getId()))
+                                        .withSelfRel())
+                                .add(linkTo(methodOn(ProfessorController.class)
+                                    .buscarProfessorPorId(curso.getProfessor().getUsuarioId()))
+                                        .withRel("professor"))
+                                .add(linkTo(methodOn(AlunoController.class)
+                                        .buscarAlunosPorCursoId(curso.getId(), Pageable.unpaged()))
+                                        .withRel("alunos")));
 
         return cursoResources;
     }
@@ -95,15 +111,21 @@ public class CursoService implements ICursoService {
         Page<CursoResource> cursoResources = cursos
                 .map(curso ->
                         cursoCursoResourceMapper
-                                .cursoToCursoResource(curso));
+                                .cursoToCursoResource(curso)                                .add(linkTo(methodOn(CursoController.class)
+                                        .buscarCursoPorId(curso.getId()))
+                                        .withSelfRel())
+                                .add(linkTo(methodOn(ProfessorController.class)
+                                        .buscarProfessorPorId(curso.getProfessor().getUsuarioId()))
+                                        .withRel("professor"))
+                                .add(linkTo(methodOn(AlunoController.class)
+                                        .buscarAlunosPorCursoId(curso.getId(), Pageable.unpaged()))
+                                        .withRel("alunos")));
 
-        //Link to Self
-        //Link to Professor
-        //Link to Alunos do Curso
 
         return cursoResources;
     }
 
+    @Transactional
     public CursoResource update(Long id, CursoRequest cursoDto) {
         cursoRepository.findById(id).orElseThrow();
 
@@ -117,13 +139,14 @@ public class CursoService implements ICursoService {
 
         CursoResource cursoResource = cursoCursoResourceMapper.cursoToCursoResource(cursoAtualizado);
 
-        //Link to Self
-        //Link to Professor
-        //Link to Alunos do Curso
+        cursoResource.add(linkTo(methodOn(CursoController.class).atualizarCurso(id, cursoDto)).withSelfRel());
+        cursoResource.add(linkTo(methodOn(ProfessorController.class).buscarProfessorPorId(cursoAtualizado.getProfessor().getUsuarioId())).withRel("professor"));
+        cursoResource.add(linkTo(methodOn(AlunoController.class).buscarAlunosPorCursoId(cursoAtualizado.getId(), Pageable.unpaged())).withRel("alunos"));
 
         return cursoResource;
     }
 
+    @Transactional
     public CursoResource addAluno(Long id, UUID alunoId) {
         Curso curso = cursoRepository.findById(id).orElseThrow();
         Aluno aluno = alunoRepository.findByUsuarioId(alunoId).orElseThrow();
@@ -137,13 +160,14 @@ public class CursoService implements ICursoService {
 
         CursoResource cursoResource = cursoCursoResourceMapper.cursoToCursoResource(cursoAtualizado);
 
-        //Link to Self
-        //Link to Professor
-        //Link to Alunos do Curso
+        cursoResource.add(linkTo(methodOn(CursoController.class).adicionarAluno(id, alunoId)).withSelfRel());
+        cursoResource.add(linkTo(methodOn(ProfessorController.class).buscarProfessorPorId(cursoAtualizado.getProfessor().getUsuarioId())).withRel("professor"));
+        cursoResource.add(linkTo(methodOn(AlunoController.class).buscarAlunosPorCursoId(cursoAtualizado.getId(), Pageable.unpaged())).withRel("alunos"));
 
         return cursoResource;
     }
 
+    @Transactional
     public CursoResource removeAluno(Long id, UUID alunoId) {
         Curso curso = cursoRepository.findById(id).orElseThrow();
         Aluno aluno = alunoRepository.findByUsuarioId(alunoId).orElseThrow();
@@ -157,9 +181,9 @@ public class CursoService implements ICursoService {
 
         CursoResource cursoResource = cursoCursoResourceMapper.cursoToCursoResource(cursoAtualizado);
 
-        //Link to Self
-        //Link to Professor
-        //Link to Alunos do Curso
+        cursoResource.add(linkTo(methodOn(CursoController.class).adicionarAluno(id, alunoId)).withSelfRel());
+        cursoResource.add(linkTo(methodOn(ProfessorController.class).buscarProfessorPorId(cursoAtualizado.getProfessor().getUsuarioId())).withRel("professor"));
+        cursoResource.add(linkTo(methodOn(AlunoController.class).buscarAlunosPorCursoId(cursoAtualizado.getId(), Pageable.unpaged())).withRel("alunos"));
 
         return cursoResource;
     }
@@ -173,7 +197,7 @@ public class CursoService implements ICursoService {
 
         CursoResource cursoResource = cursoCursoResourceMapper.cursoToCursoResource(curso);
 
-        //Link to Self
+        cursoResource.add(linkTo(methodOn(CursoController.class).deletarCurso(id)).withSelfRel());
 
         return cursoResource;
     }

@@ -1,5 +1,6 @@
 package com.example.cursosms.service.impl;
 
+import com.example.cursosms.controller.CursoController;
 import com.example.cursosms.controller.ProfessorController;
 import com.example.cursosms.mapper.ProfessorProfessorRequestMapper;
 import com.example.cursosms.mapper.ProfessorProfessorResourceMapper;
@@ -37,7 +38,7 @@ public class ProfessorService implements IProfessorService {
                 .professorToProfessorResource(professorSalvo);
 
         professorResource.add(linkTo(methodOn(ProfessorController.class).registrarProfessor(professorDto)).withSelfRel());
-        //Link to Cursos do Professor
+        professorResource.add(linkTo(methodOn(CursoController.class).buscarCursosPorProfessorId(professorDto.usuarioId(), Pageable.unpaged())).withRel("cursos"));
 
         return professorResource;
     }
@@ -49,7 +50,7 @@ public class ProfessorService implements IProfessorService {
                 .professorToProfessorResource(professor);
 
         professorResource.add(linkTo(methodOn(ProfessorController.class).buscarProfessorPorId(usuarioId)).withSelfRel());
-        //Link to Cursos do Professor
+        professorResource.add(linkTo(methodOn(CursoController.class).buscarCursosPorProfessorId(professor.getUsuarioId(), Pageable.unpaged())).withRel("cursos"));
 
         return professorResource;
     }
@@ -63,9 +64,9 @@ public class ProfessorService implements IProfessorService {
                                 .professorToProfessorResource(professor)
                                 .add(linkTo(methodOn(ProfessorController.class)
                                         .buscarProfessorPorId(professor.getUsuarioId())).withSelfRel())
-                );
-
-        //Link to Cursos do Professor
+                                .add(linkTo(methodOn(CursoController.class)
+                                        .buscarCursosPorProfessorId(professor.getUsuarioId(), Pageable.unpaged()))
+                                        .withRel("curso")));
 
         return professorResources;
     }

@@ -1,6 +1,7 @@
 package com.example.cursosms.service.impl;
 
 import com.example.cursosms.controller.AlunoController;
+import com.example.cursosms.controller.CursoController;
 import com.example.cursosms.mapper.AlunoAlunoRequestMapper;
 import com.example.cursosms.mapper.AlunoAlunoResourceMapper;
 import com.example.cursosms.model.Aluno;
@@ -37,8 +38,7 @@ public class AlunoService implements IAlunoService {
         AlunoResource alunoResource = alunoAlunoResourceMapper.alunoToAlunoResource(alunoSalvo);
 
         alunoResource.add(linkTo(methodOn(AlunoController.class).registrarAluno(alunoDto)).withSelfRel());
-
-        //Link to Cursos do Aluno
+        alunoResource.add(linkTo(methodOn(CursoController.class).buscarCursosPorAlunoId(alunoDto.usuarioId(), Pageable.unpaged())).withRel("cursos"));
 
         return alunoResource;
     }
@@ -49,7 +49,7 @@ public class AlunoService implements IAlunoService {
         AlunoResource alunoResource = alunoAlunoResourceMapper.alunoToAlunoResource(aluno);
 
         alunoResource.add(linkTo(methodOn(AlunoController.class).buscarAlunoPorId(usuarioId)).withSelfRel());
-        //Link to Cursos do Aluno
+        alunoResource.add(linkTo(methodOn(CursoController.class).buscarCursosPorAlunoId(aluno.getUsuarioId(), Pageable.unpaged())).withRel("cursos"));
 
         return alunoResource;
     }
@@ -63,9 +63,10 @@ public class AlunoService implements IAlunoService {
                                 .alunoToAlunoResource(aluno)
                                 .add(linkTo(methodOn(AlunoController.class)
                                         .buscarAlunoPorId(aluno.getUsuarioId()))
-                                        .withSelfRel()));
-
-        //Link to Cursos do Aluno
+                                        .withSelfRel())
+                                .add(linkTo(methodOn(CursoController.class)
+                                        .buscarCursosPorAlunoId(aluno.getUsuarioId(), Pageable.unpaged()))
+                                        .withRel("curso")));
 
         return alunoResources;
     }
@@ -79,9 +80,10 @@ public class AlunoService implements IAlunoService {
                                 .alunoToAlunoResource(aluno)
                                 .add(linkTo(methodOn(AlunoController.class)
                                         .buscarAlunoPorId(aluno.getUsuarioId()))
-                                        .withSelfRel()));
-
-        //Link to Cursos do Aluno
+                                        .withSelfRel())
+                                .add(linkTo(methodOn(CursoController.class)
+                                        .buscarCursosPorAlunoId(aluno.getUsuarioId(), Pageable.unpaged()))
+                                        .withRel("curso")));
 
         return alunoResources;
     }
