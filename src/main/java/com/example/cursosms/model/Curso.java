@@ -40,6 +40,6 @@ public class Curso {
             joinColumns = @JoinColumn(name = "curso_id"),
             inverseJoinColumns = @JoinColumn(name = "aluno_id")
     )
-    private ArrayList<Aluno> alunos;
+    private List<Aluno> alunos;
 
 }

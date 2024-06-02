@@ -152,7 +152,7 @@ public class CursoService implements ICursoService {
         Curso curso = cursoRepository.findById(id).orElseThrow();
         Aluno aluno = alunoRepository.findByUsuarioId(alunoId).orElseThrow();
 
-        ArrayList<Aluno> alunos = curso.getAlunos();
+        ArrayList<Aluno> alunos =  new ArrayList<>(curso.getAlunos());
         alunos.add(aluno);
 
         curso.setAlunos(alunos);
@@ -173,7 +173,7 @@ public class CursoService implements ICursoService {
         Curso curso = cursoRepository.findById(id).orElseThrow();
         Aluno aluno = alunoRepository.findByUsuarioId(alunoId).orElseThrow();
 
-        ArrayList<Aluno> alunos = curso.getAlunos();
+        ArrayList<Aluno> alunos = new ArrayList<>(curso.getAlunos());
         alunos.remove(aluno);
 
         curso.setAlunos(alunos);

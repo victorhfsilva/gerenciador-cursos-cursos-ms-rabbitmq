@@ -1,0 +1,5 @@
+ALTER SEQUENCE professores_id_seq RESTART WITH 1;
+
+ALTER SEQUENCE cursos_id_seq RESTART WITH 1;
+
+ALTER SEQUENCE alunos_id_seq RESTART WITH 1;

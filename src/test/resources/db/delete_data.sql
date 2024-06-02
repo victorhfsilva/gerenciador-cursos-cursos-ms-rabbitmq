@@ -1,0 +1,7 @@
+DELETE FROM cursos_alunos WHERE EXISTS (SELECT 1 FROM cursos);
+
+DELETE FROM alunos WHERE EXISTS (SELECT 1 FROM alunos);
+
+DELETE FROM cursos WHERE EXISTS (SELECT 1 FROM cursos);
+
+DELETE FROM professores WHERE EXISTS (SELECT 1 FROM professores);

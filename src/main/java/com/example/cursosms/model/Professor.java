@@ -23,7 +23,7 @@ public class Professor {
     @Column(nullable = false, unique = true)
     private UUID usuarioId;
 
-    @OneToMany(mappedBy = "professor")
+    @OneToMany(mappedBy = "professor", cascade = CascadeType.ALL)
     private List<Curso> cursos;
 
 }
