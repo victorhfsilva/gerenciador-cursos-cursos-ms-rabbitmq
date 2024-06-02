@@ -20,6 +20,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -151,7 +152,7 @@ public class CursoService implements ICursoService {
         Curso curso = cursoRepository.findById(id).orElseThrow();
         Aluno aluno = alunoRepository.findByUsuarioId(alunoId).orElseThrow();
 
-        List<Aluno> alunos = curso.getAlunos();
+        ArrayList<Aluno> alunos = curso.getAlunos();
         alunos.add(aluno);
 
         curso.setAlunos(alunos);
@@ -172,7 +173,7 @@ public class CursoService implements ICursoService {
         Curso curso = cursoRepository.findById(id).orElseThrow();
         Aluno aluno = alunoRepository.findByUsuarioId(alunoId).orElseThrow();
 
-        List<Aluno> alunos = curso.getAlunos();
+        ArrayList<Aluno> alunos = curso.getAlunos();
         alunos.remove(aluno);
 
         curso.setAlunos(alunos);

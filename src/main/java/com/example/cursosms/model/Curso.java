@@ -3,6 +3,7 @@ package com.example.cursosms.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -39,6 +40,6 @@ public class Curso {
             joinColumns = @JoinColumn(name = "curso_id"),
             inverseJoinColumns = @JoinColumn(name = "aluno_id")
     )
-    private List<Aluno> alunos;
+    private ArrayList<Aluno> alunos;
 
 }
