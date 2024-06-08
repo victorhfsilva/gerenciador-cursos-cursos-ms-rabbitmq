@@ -13,8 +13,8 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@EqualsAndHashCode
-@ToString
+@EqualsAndHashCode(exclude = "cursos")
+@ToString(exclude = "cursos")
 @Table(name = "alunos")
 public class Aluno {
     @Id

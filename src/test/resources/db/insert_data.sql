@@ -4,9 +4,9 @@ INSERT INTO professores (usuario_id) VALUES
 ('a2eebc99-9c0b-4ef8-bb6d-6bb9bd380a13');
 
 INSERT INTO cursos (nome, descricao, carga_horaria, professor_id) VALUES
-('Curso de Java', 'Curso avançado de Java', 40, 1),
+('Curso de Java', 'Curso avancado de Java', 40, 1),
 ('Curso de Spring', 'Curso completo de Spring Framework', 30, 2),
-('Curso de Docker', 'Curso introdutório de Docker', 20, 3);
+('Curso de Docker', 'Curso introdutorio de Docker', 20, 3);
 
 INSERT INTO alunos (usuario_id) VALUES
 ('b0eebc99-9c0b-4ef8-bb6d-6bb9bd380b21'),

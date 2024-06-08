@@ -3,6 +3,7 @@ package com.example.cursosms.service.impl;
 import com.example.cursosms.controller.AlunoController;
 import com.example.cursosms.controller.CursoController;
 import com.example.cursosms.controller.ProfessorController;
+import com.example.cursosms.exception.CursoPatchException;
 import com.example.cursosms.mapper.CursoCursoRequestMapper;
 import com.example.cursosms.mapper.CursoCursoResourceMapper;
 import com.example.cursosms.model.Aluno;
@@ -21,7 +22,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -153,6 +153,11 @@ public class CursoService implements ICursoService {
         Aluno aluno = alunoRepository.findByUsuarioId(alunoId).orElseThrow();
 
         ArrayList<Aluno> alunos =  new ArrayList<>(curso.getAlunos());
+
+        if (alunos.contains(aluno)) {
+            throw new CursoPatchException("Aluno já foi cadastrado no curso");
+        }
+
         alunos.add(aluno);
 
         curso.setAlunos(alunos);
@@ -174,6 +179,11 @@ public class CursoService implements ICursoService {
         Aluno aluno = alunoRepository.findByUsuarioId(alunoId).orElseThrow();
 
         ArrayList<Aluno> alunos = new ArrayList<>(curso.getAlunos());
+
+        if (!alunos.contains(aluno)) {
+            throw new CursoPatchException("Aluno não está cadastrado neste curso.");
+        }
+
         alunos.remove(aluno);
 
         curso.setAlunos(alunos);
