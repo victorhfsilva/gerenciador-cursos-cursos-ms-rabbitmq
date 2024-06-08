@@ -1,6 +1,5 @@
 package com.example.cursosms.controller;
 
-import com.example.cursosms.fixture.CursoFixture;
 import com.example.cursosms.fixture.CursoRequestFixture;
 import com.example.cursosms.fixture.ProfessorRequestFixture;
 import com.example.cursosms.model.dto.CursoRequest;
@@ -27,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
-public class CursoIntegrationTest {
+public class CursoControllerIntegrationTest {
 
     @Autowired
     private TestRestTemplate restTemplate;

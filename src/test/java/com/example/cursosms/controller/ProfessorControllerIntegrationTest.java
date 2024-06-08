@@ -1,13 +1,9 @@
 package com.example.cursosms.controller;
 
-import com.example.cursosms.fixture.ProfessorFixture;
 import com.example.cursosms.fixture.ProfessorRequestFixture;
-import com.example.cursosms.model.Professor;
 import com.example.cursosms.model.dto.ProfessorRequest;
 import com.example.cursosms.model.resource.ProfessorResource;
-import com.example.cursosms.repository.ProfessorRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
-public class ProfessorIntegrationTest {
+public class ProfessorControllerIntegrationTest {
 
     @Autowired
     private TestRestTemplate restTemplate;
