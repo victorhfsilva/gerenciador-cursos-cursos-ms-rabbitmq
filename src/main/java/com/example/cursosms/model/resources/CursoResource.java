@@ -1,9 +1,7 @@
-package com.example.cursosms.model.resource;
+package com.example.cursosms.model.resources;
 
 import lombok.*;
 import org.springframework.hateoas.RepresentationModel;
-
-import java.util.List;
 
 @Builder
 @Getter

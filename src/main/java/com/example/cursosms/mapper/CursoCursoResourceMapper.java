@@ -1,7 +1,7 @@
 package com.example.cursosms.mapper;
 
 import com.example.cursosms.model.Curso;
-import com.example.cursosms.model.resource.CursoResource;
+import com.example.cursosms.model.resources.CursoResource;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

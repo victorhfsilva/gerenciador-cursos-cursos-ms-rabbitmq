@@ -2,8 +2,8 @@ package com.example.cursosms.controller;
 
 import com.example.cursosms.fixture.ProfessorResourceFixture;
 import com.example.cursosms.fixture.ProfessorRequestFixture;
-import com.example.cursosms.model.dto.ProfessorRequest;
-import com.example.cursosms.model.resource.ProfessorResource;
+import com.example.cursosms.model.requests.ProfessorRequest;
+import com.example.cursosms.model.resources.ProfessorResource;
 import com.example.cursosms.service.impl.ProfessorService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;

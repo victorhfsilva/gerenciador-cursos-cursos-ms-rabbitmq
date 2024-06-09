@@ -1,9 +1,7 @@
 package com.example.cursosms.fixture;
 
-import com.example.cursosms.model.Aluno;
-import com.example.cursosms.model.resource.AlunoResource;
+import com.example.cursosms.model.resources.AlunoResource;
 
-import java.util.List;
 import java.util.UUID;
 
 public interface AlunoResourceFixture {

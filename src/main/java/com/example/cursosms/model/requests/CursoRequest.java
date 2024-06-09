@@ -1,4 +1,4 @@
-package com.example.cursosms.model.dto;
+package com.example.cursosms.model.requests;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

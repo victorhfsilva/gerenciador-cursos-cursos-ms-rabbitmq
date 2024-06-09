@@ -5,8 +5,8 @@ import com.example.cursosms.controller.CursoController;
 import com.example.cursosms.mapper.AlunoAlunoRequestMapper;
 import com.example.cursosms.mapper.AlunoAlunoResourceMapper;
 import com.example.cursosms.model.Aluno;
-import com.example.cursosms.model.dto.AlunoRequest;
-import com.example.cursosms.model.resource.AlunoResource;
+import com.example.cursosms.model.requests.AlunoRequest;
+import com.example.cursosms.model.resources.AlunoResource;
 import com.example.cursosms.repository.AlunoRepository;
 import com.example.cursosms.service.IAlunoService;
 import jakarta.transaction.Transactional;
@@ -30,8 +30,6 @@ public class AlunoService implements IAlunoService {
 
     @Transactional
     public AlunoResource save(AlunoRequest alunoDto) {
-        //Verificar se o UUID é válido
-
         Aluno aluno = alunoAlunoRequestMapper.alunoRequestToAluno(alunoDto);
         Aluno alunoSalvo = alunoRepository.save(aluno);
 

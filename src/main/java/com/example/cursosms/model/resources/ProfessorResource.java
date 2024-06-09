@@ -1,4 +1,4 @@
-package com.example.cursosms.model.resource;
+package com.example.cursosms.model.resources;
 
 import lombok.*;
 import org.springframework.hateoas.RepresentationModel;
@@ -10,6 +10,6 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AlunoResource extends RepresentationModel<AlunoResource> {
+public class ProfessorResource extends RepresentationModel<ProfessorResource> {
     private UUID usuarioId;
 }

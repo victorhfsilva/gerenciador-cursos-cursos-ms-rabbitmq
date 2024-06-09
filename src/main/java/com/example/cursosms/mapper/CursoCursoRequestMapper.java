@@ -1,7 +1,7 @@
 package com.example.cursosms.mapper;
 
 import com.example.cursosms.model.Curso;
-import com.example.cursosms.model.dto.CursoRequest;
+import com.example.cursosms.model.requests.CursoRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

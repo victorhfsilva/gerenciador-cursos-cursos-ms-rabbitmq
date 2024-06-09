@@ -1,7 +1,7 @@
 package com.example.cursosms.service;
 
-import com.example.cursosms.model.dto.AlunoRequest;
-import com.example.cursosms.model.resource.AlunoResource;
+import com.example.cursosms.model.requests.AlunoRequest;
+import com.example.cursosms.model.resources.AlunoResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

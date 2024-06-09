@@ -1,7 +1,7 @@
 package com.example.cursosms.controller;
 
-import com.example.cursosms.model.dto.CursoRequest;
-import com.example.cursosms.model.resource.CursoResource;
+import com.example.cursosms.model.requests.CursoRequest;
+import com.example.cursosms.model.resources.CursoResource;
 import com.example.cursosms.service.ICursoService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

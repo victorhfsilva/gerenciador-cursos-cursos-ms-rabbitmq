@@ -1,7 +1,6 @@
 package com.example.cursosms.fixture;
 
-import com.example.cursosms.model.dto.AlunoRequest;
-import com.example.cursosms.model.dto.ProfessorRequest;
+import com.example.cursosms.model.requests.ProfessorRequest;
 
 import java.util.UUID;
 

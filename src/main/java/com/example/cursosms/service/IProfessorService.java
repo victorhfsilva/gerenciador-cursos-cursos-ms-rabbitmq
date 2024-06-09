@@ -1,7 +1,7 @@
 package com.example.cursosms.service;
 
-import com.example.cursosms.model.dto.ProfessorRequest;
-import com.example.cursosms.model.resource.ProfessorResource;
+import com.example.cursosms.model.requests.ProfessorRequest;
+import com.example.cursosms.model.resources.ProfessorResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

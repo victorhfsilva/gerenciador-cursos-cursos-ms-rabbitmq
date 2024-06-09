@@ -1,6 +1,5 @@
 package com.example.cursosms.fixture;
 
-import com.example.cursosms.model.Aluno;
 import com.example.cursosms.model.Curso;
 
 import java.util.ArrayList;

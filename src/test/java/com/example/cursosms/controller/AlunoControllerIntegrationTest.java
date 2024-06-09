@@ -1,8 +1,8 @@
 package com.example.cursosms.controller;
 
 import com.example.cursosms.fixture.AlunoRequestFixture;
-import com.example.cursosms.model.dto.AlunoRequest;
-import com.example.cursosms.model.resource.AlunoResource;
+import com.example.cursosms.model.requests.AlunoRequest;
+import com.example.cursosms.model.resources.AlunoResource;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

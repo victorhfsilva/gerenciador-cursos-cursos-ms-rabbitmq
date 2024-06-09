@@ -1,7 +1,6 @@
 package com.example.cursosms.fixture;
 
-import com.example.cursosms.model.resource.CursoResource;
-import java.util.List;
+import com.example.cursosms.model.resources.CursoResource;
 
 public interface CursoResourceFixture {
 

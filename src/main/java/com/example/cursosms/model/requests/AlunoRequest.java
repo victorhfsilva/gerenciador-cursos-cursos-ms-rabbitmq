@@ -1,6 +1,5 @@
-package com.example.cursosms.model.dto;
+package com.example.cursosms.model.requests;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 
 import java.util.UUID;

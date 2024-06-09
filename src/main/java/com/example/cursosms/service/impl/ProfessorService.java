@@ -5,8 +5,8 @@ import com.example.cursosms.controller.ProfessorController;
 import com.example.cursosms.mapper.ProfessorProfessorRequestMapper;
 import com.example.cursosms.mapper.ProfessorProfessorResourceMapper;
 import com.example.cursosms.model.Professor;
-import com.example.cursosms.model.dto.ProfessorRequest;
-import com.example.cursosms.model.resource.ProfessorResource;
+import com.example.cursosms.model.requests.ProfessorRequest;
+import com.example.cursosms.model.resources.ProfessorResource;
 import com.example.cursosms.repository.ProfessorRepository;
 import com.example.cursosms.service.IProfessorService;
 import jakarta.transaction.Transactional;
@@ -29,8 +29,6 @@ public class ProfessorService implements IProfessorService {
     private ProfessorProfessorResourceMapper professorProfessorResourceMapper;
 
     public ProfessorResource save(ProfessorRequest professorDto) {
-        //Verificar se o UUID é válido
-
         Professor professor = professorProfessorRequestMapper.professorRequestToProfessor(professorDto);
         Professor professorSalvo = professorRepository.save(professor);
 

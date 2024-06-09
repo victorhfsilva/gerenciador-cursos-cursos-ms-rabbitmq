@@ -1,7 +1,6 @@
 package com.example.cursosms.fixture;
 
-import com.example.cursosms.model.resource.AlunoResource;
-import com.example.cursosms.model.resource.ProfessorResource;
+import com.example.cursosms.model.resources.ProfessorResource;
 
 import java.util.UUID;
 

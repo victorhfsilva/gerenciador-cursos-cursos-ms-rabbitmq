@@ -1,9 +1,6 @@
 package com.example.cursosms.fixture;
 
-import com.example.cursosms.model.Curso;
-import com.example.cursosms.model.dto.CursoRequest;
-
-import java.util.List;
+import com.example.cursosms.model.requests.CursoRequest;
 
 public interface CursoRequestFixture {
     static CursoRequest buildValido() {
