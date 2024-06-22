@@ -4,7 +4,7 @@ import com.example.cursosms.fixture.ProfessorResourceFixture;
 import com.example.cursosms.fixture.ProfessorRequestFixture;
 import com.example.cursosms.model.requests.ProfessorRequest;
 import com.example.cursosms.model.resources.ProfessorResource;
-import com.example.cursosms.service.impl.ProfessorService;
+import com.example.cursosms.service.impl.ProfessorServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-public class ProfessorControllerTest {
+class ProfessorControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
@@ -37,14 +37,14 @@ public class ProfessorControllerTest {
     private ObjectMapper objectMapper;
 
     @MockBean
-    private ProfessorService professorService;
+    private ProfessorServiceImpl professorServiceImpl;
 
     @Test
     void registrarProfessorTest() throws Exception {
         ProfessorResource professorResource = ProfessorResourceFixture.buildValido();
         ProfessorRequest professorRequest = ProfessorRequestFixture.buildValido();
 
-        when(professorService.save(any(ProfessorRequest.class))).thenReturn(professorResource);
+        when(professorServiceImpl.save(any(ProfessorRequest.class))).thenReturn(professorResource);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/professores")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -57,7 +57,7 @@ public class ProfessorControllerTest {
     void buscarProfessorPorIdTest() throws Exception {
         ProfessorResource professorResource = ProfessorResourceFixture.buildValido();
 
-        when(professorService.findByUsuarioId(any())).thenReturn(professorResource);
+        when(professorServiceImpl.findByUsuarioId(any())).thenReturn(professorResource);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/professores/{id}", professorResource.getUsuarioId()))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -70,7 +70,7 @@ public class ProfessorControllerTest {
         List<ProfessorResource> professorResources = List.of(ProfessorResourceFixture.buildValido());
         Page<ProfessorResource> paginaProfessorResources = new PageImpl<>(professorResources, pageable, professorResources.size());
 
-        when(professorService.findAll(any(Pageable.class))).thenReturn(paginaProfessorResources);
+        when(professorServiceImpl.findAll(any(Pageable.class))).thenReturn(paginaProfessorResources);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/professores"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -81,7 +81,7 @@ public class ProfessorControllerTest {
     void deletarTest() throws Exception {
         ProfessorResource professorResource = ProfessorResourceFixture.buildValido();
 
-        when(professorService.delete(any())).thenReturn(professorResource);
+        when(professorServiceImpl.delete(any())).thenReturn(professorResource);
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/professores/{id}", professorResource.getUsuarioId()))
                 .andExpect(MockMvcResultMatchers.status().isOk())

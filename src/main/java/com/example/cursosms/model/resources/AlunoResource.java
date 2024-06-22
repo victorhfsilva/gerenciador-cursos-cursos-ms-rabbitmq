@@ -10,6 +10,7 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 public class AlunoResource extends RepresentationModel<AlunoResource> {
     private UUID usuarioId;
 }

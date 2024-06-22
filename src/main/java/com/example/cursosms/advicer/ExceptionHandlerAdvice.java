@@ -20,6 +20,9 @@ public class ExceptionHandlerAdvice {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<String> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
         FieldError fieldError = ex.getBindingResult().getFieldError();
+        if (fieldError == null) {
+            return ResponseEntity.badRequest().body("Erro de validação.");
+        }
         return ResponseEntity.badRequest().body("O campo " + fieldError.getField() + " é inválido.");
     }
 

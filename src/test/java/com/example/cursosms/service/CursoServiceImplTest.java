@@ -1,8 +1,7 @@
 package com.example.cursosms.service;
 
 import com.example.cursosms.fixture.*;
-import com.example.cursosms.mapper.CursoCursoRequestMapper;
-import com.example.cursosms.mapper.CursoCursoResourceMapper;
+import com.example.cursosms.mapper.CursoMapper;
 import com.example.cursosms.model.Aluno;
 import com.example.cursosms.model.Curso;
 import com.example.cursosms.model.Professor;
@@ -11,7 +10,7 @@ import com.example.cursosms.model.resources.CursoResource;
 import com.example.cursosms.repository.AlunoRepository;
 import com.example.cursosms.repository.CursoRepository;
 import com.example.cursosms.repository.ProfessorRepository;
-import com.example.cursosms.service.impl.CursoService;
+import com.example.cursosms.service.impl.CursoServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -30,19 +29,16 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class CursoServiceTest {
+class CursoServiceImplTest {
 
     @InjectMocks
-    private CursoService cursoService;
+    private CursoServiceImpl cursoServiceImpl;
 
     @Mock
     private CursoRepository cursoRepository;
 
     @Mock
-    private CursoCursoResourceMapper cursoCursoResourceMapper;
-
-    @Mock
-    private CursoCursoRequestMapper cursoCursoRequestMapper;
+    private CursoMapper cursoMapper;
 
     @Mock
     private AlunoRepository alunoRepository;
@@ -51,91 +47,91 @@ public class CursoServiceTest {
     private ProfessorRepository professorRepository;
 
     @Test
-    public void saveTest(){
+    void saveTest(){
         CursoRequest cursoRequest = CursoRequestFixture.buildValido();
         Curso curso = CursoFixture.buildValido();
         Professor professor = ProfessorFixture.buildValido();
 
-        when(cursoCursoRequestMapper.cursoRequestToCurso(cursoRequest)).thenReturn(curso);
+        when(cursoMapper.map(cursoRequest)).thenReturn(curso);
         when(professorRepository.findByUsuarioId(cursoRequest.professor())).thenReturn(Optional.of(professor));
         when(cursoRepository.save(any(Curso.class))).thenReturn(curso);
-        when(cursoCursoResourceMapper.cursoToCursoResource(curso)).thenReturn(CursoResourceFixture.buildValido());
+        when(cursoMapper.map(curso)).thenReturn(CursoResourceFixture.buildValido());
 
-        CursoResource cursoSalvo = cursoService.save(cursoRequest);
+        CursoResource cursoSalvo = cursoServiceImpl.save(cursoRequest);
 
         assertEquals(cursoSalvo.getNome(), cursoRequest.nome());
     }
 
     @Test
-    public void findByIdTest(){
+    void findByIdTest(){
         Curso curso = CursoFixture.buildValido();
         CursoResource cursoResource = CursoResourceFixture.buildValido();
 
         when(cursoRepository.findById(curso.getId())).thenReturn(Optional.of(curso));
-        when(cursoCursoResourceMapper.cursoToCursoResource(curso)).thenReturn(cursoResource);
+        when(cursoMapper.map(curso)).thenReturn(cursoResource);
 
-        CursoResource cursoResourceBuscado = cursoService.findById(curso.getId());
+        CursoResource cursoResourceBuscado = cursoServiceImpl.findById(curso.getId());
         assertEquals(cursoResourceBuscado.getNome(), curso.getNome());
     }
 
     @Test
-    public void findByProfessorIdTest(){
+    void findByProfessorIdTest(){
         Pageable pageable = PageRequest.of(0, 10);
         Curso curso = CursoFixture.buildValido();
         CursoResource cursoResource = CursoResourceFixture.buildValido();
 
         when(cursoRepository.findCursosByProfessorId(curso.getProfessor().getUsuarioId(), pageable)).thenReturn(new PageImpl<>(List.of(curso)));
-        when(cursoCursoResourceMapper.cursoToCursoResource(curso)).thenReturn(cursoResource);
+        when(cursoMapper.map(curso)).thenReturn(cursoResource);
 
-        Page<CursoResource> cursoResources = cursoService.findByProfessorId(curso.getProfessor().getUsuarioId(), pageable);
+        Page<CursoResource> cursoResources = cursoServiceImpl.findByProfessorId(curso.getProfessor().getUsuarioId(), pageable);
         assertEquals(cursoResources.getContent().get(0).getNome(), curso.getNome());
     }
 
     @Test
-    public void findByAlunoId() {
+    void findByAlunoId() {
         Pageable pageable = PageRequest.of(0, 10);
         Curso curso = CursoFixture.buildValido();
         CursoResource cursoResource = CursoResourceFixture.buildValido();
 
         when(cursoRepository.findCursosByAlunoId(curso.getAlunos().get(0).getUsuarioId(), pageable)).thenReturn(new PageImpl<>(List.of(curso)));
-        when(cursoCursoResourceMapper.cursoToCursoResource(curso)).thenReturn(cursoResource);
+        when(cursoMapper.map(curso)).thenReturn(cursoResource);
 
-        Page<CursoResource> cursoResources = cursoService.findByAlunoId(curso.getAlunos().get(0).getUsuarioId(), pageable);
+        Page<CursoResource> cursoResources = cursoServiceImpl.findByAlunoId(curso.getAlunos().get(0).getUsuarioId(), pageable);
         assertEquals(cursoResources.getContent().get(0).getNome(), curso.getNome());
     }
 
     @Test
-    public void findAll() {
+    void findAll() {
         Pageable pageable = PageRequest.of(0, 10);
         Curso curso = CursoFixture.buildValido();
         CursoResource cursoResource = CursoResourceFixture.buildValido();
 
         when(cursoRepository.findAll(pageable)).thenReturn(new PageImpl<>(List.of(curso)));
-        when(cursoCursoResourceMapper.cursoToCursoResource(curso)).thenReturn(cursoResource);
+        when(cursoMapper.map(curso)).thenReturn(cursoResource);
 
-        Page<CursoResource> cursoResources = cursoService.findAll(pageable);
+        Page<CursoResource> cursoResources = cursoServiceImpl.findAll(pageable);
         assertEquals(cursoResources.getContent().get(0).getNome(), curso.getNome());
     }
 
     @Test
-    public void update(){
+    void update(){
         CursoRequest cursoRequest = CursoRequestFixture.buildValido();
         Curso curso = CursoFixture.buildValido();
         Professor professor = ProfessorFixture.buildValido();
         CursoResource cursoResource = CursoResourceFixture.buildValido();
 
         when(cursoRepository.findById(curso.getId())).thenReturn(Optional.of(curso));
-        when(cursoCursoRequestMapper.cursoRequestToCurso(cursoRequest)).thenReturn(curso);
+        when(cursoMapper.map(cursoRequest)).thenReturn(curso);
         when(professorRepository.findByUsuarioId(cursoRequest.professor())).thenReturn(Optional.of(professor));
         when(cursoRepository.save(any(Curso.class))).thenReturn(curso);
-        when(cursoCursoResourceMapper.cursoToCursoResource(curso)).thenReturn(cursoResource);
+        when(cursoMapper.map(curso)).thenReturn(cursoResource);
 
-        CursoResource cursoResourceAtualizado = cursoService.update(curso.getId(), cursoRequest);
+        CursoResource cursoResourceAtualizado = cursoServiceImpl.update(curso.getId(), cursoRequest);
         assertEquals(cursoResourceAtualizado.getNome(), cursoRequest.nome());
     }
 
     @Test
-    public void addAluno() {
+    void addAluno() {
         Curso cursoSemAlunos = CursoFixture.buildSemAlunos();
         Aluno aluno = AlunoFixture.buildValido();
         CursoResource cursoResource = CursoResourceFixture.buildValido();
@@ -144,14 +140,14 @@ public class CursoServiceTest {
         when(cursoRepository.findById(cursoSemAlunos.getId())).thenReturn(Optional.of(cursoSemAlunos));
         when(alunoRepository.findByUsuarioId(aluno.getUsuarioId())).thenReturn(Optional.of(aluno));
         when(cursoRepository.save(any(Curso.class))).thenReturn(curso);
-        when(cursoCursoResourceMapper.cursoToCursoResource(curso)).thenReturn(cursoResource);
+        when(cursoMapper.map(curso)).thenReturn(cursoResource);
 
-        CursoResource cursoResourceAtualizado = cursoService.addAluno(cursoSemAlunos.getId(), aluno.getUsuarioId());
+        CursoResource cursoResourceAtualizado = cursoServiceImpl.addAluno(cursoSemAlunos.getId(), aluno.getUsuarioId());
         assertEquals(cursoResourceAtualizado.getNome(), cursoSemAlunos.getNome());
     }
 
     @Test
-    public void removeAluno(){
+    void removeAluno(){
         Curso curso = CursoFixture.buildValido();
         Aluno aluno = AlunoFixture.buildValido();
         Curso cursoSemAlunos = CursoFixture.buildSemAlunos();
@@ -159,21 +155,21 @@ public class CursoServiceTest {
         when(cursoRepository.findById(curso.getId())).thenReturn(Optional.of(curso));
         when(alunoRepository.findByUsuarioId(aluno.getUsuarioId())).thenReturn(Optional.of(aluno));
         when(cursoRepository.save(any(Curso.class))).thenReturn(cursoSemAlunos);
-        when(cursoCursoResourceMapper.cursoToCursoResource(cursoSemAlunos)).thenReturn(CursoResourceFixture.buildValido());
+        when(cursoMapper.map(cursoSemAlunos)).thenReturn(CursoResourceFixture.buildValido());
 
-        CursoResource cursoResource = cursoService.removeAluno(curso.getId(), aluno.getUsuarioId());
+        CursoResource cursoResource = cursoServiceImpl.removeAluno(curso.getId(), aluno.getUsuarioId());
         assertEquals(cursoResource.getNome(), curso.getNome());
     }
 
     @Test
-    public void delete(){
+    void delete(){
         Curso curso = CursoFixture.buildValido();
         CursoResource cursoResource = CursoResourceFixture.buildValido();
 
         when(cursoRepository.findById(curso.getId())).thenReturn(Optional.of(curso));
-        when(cursoCursoResourceMapper.cursoToCursoResource(curso)).thenReturn(cursoResource);
+        when(cursoMapper.map(curso)).thenReturn(cursoResource);
 
-        CursoResource cursoResourceDeletado = cursoService.delete(curso.getId());
+        CursoResource cursoResourceDeletado = cursoServiceImpl.delete(curso.getId());
         assertEquals(cursoResourceDeletado.getNome(), curso.getNome());
     }
 

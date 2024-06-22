@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
-public class AlunoControllerIntegrationTest {
+class AlunoControllerIntegrationTest {
 
     @Autowired
     private TestRestTemplate restTemplate;
@@ -38,7 +38,7 @@ public class AlunoControllerIntegrationTest {
             @Sql(scripts = "/db/restart_ids.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD),
             @Sql(scripts = "/db/insert_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     })
-    public void registrarAlunoTest() {
+    void registrarAlunoTest() {
         AlunoRequest alunoRequest = AlunoRequestFixture.buildValido();
         HttpEntity<AlunoRequest> requisicao = new HttpEntity<>(alunoRequest);
 
@@ -57,7 +57,7 @@ public class AlunoControllerIntegrationTest {
             @Sql(scripts = "/db/restart_ids.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD),
             @Sql(scripts = "/db/insert_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     })
-    public void buscarAlunoPorIdTest() {
+    void buscarAlunoPorIdTest() {
         ResponseEntity<AlunoResource> resposta = restTemplate
                 .getForEntity("http://localhost:" + port + "/alunos/"+"b0eebc99-9c0b-4ef8-bb6d-6bb9bd380b21",
                         AlunoResource.class);
@@ -72,7 +72,7 @@ public class AlunoControllerIntegrationTest {
             @Sql(scripts = "/db/restart_ids.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD),
             @Sql(scripts = "/db/insert_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     })
-    public void deletarAlunoTest() {
+    void deletarAlunoTest() {
         ResponseEntity<AlunoResource> resposta = restTemplate
                 .exchange("http://localhost:" + port + "/alunos/"+"b0eebc99-9c0b-4ef8-bb6d-6bb9bd380b21",
                         HttpMethod.DELETE,

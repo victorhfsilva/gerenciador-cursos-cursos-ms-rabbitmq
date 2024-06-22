@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.UUID;
 
-public interface ICursoService {
+public interface CursoService {
     CursoResource save(CursoRequest cursoDto);
 
     CursoResource findById(Long id);

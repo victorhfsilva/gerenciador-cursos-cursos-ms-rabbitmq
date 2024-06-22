@@ -4,7 +4,7 @@ import com.example.cursosms.fixture.CursoRequestFixture;
 import com.example.cursosms.fixture.CursoResourceFixture;
 import com.example.cursosms.model.requests.CursoRequest;
 import com.example.cursosms.model.resources.CursoResource;
-import com.example.cursosms.service.impl.CursoService;
+import com.example.cursosms.service.impl.CursoServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-public class CursoControllerTest {
+class CursoControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -41,14 +41,14 @@ public class CursoControllerTest {
     private ObjectMapper objectMapper;
 
     @MockBean
-    private CursoService cursoService;
+    private CursoServiceImpl cursoServiceImpl;
 
     @Test
     void registrarCursoTest() throws Exception {
         CursoResource cursoResource = CursoResourceFixture.buildValido();
         CursoRequest cursoRequest = CursoRequestFixture.buildValido();
 
-        when(cursoService.save(any(CursoRequest.class))).thenReturn(cursoResource);
+        when(cursoServiceImpl.save(any(CursoRequest.class))).thenReturn(cursoResource);
 
         mockMvc.perform(MockMvcRequestBuilders.post("/cursos")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -64,7 +64,7 @@ public class CursoControllerTest {
     void buscarCursoPorIdTest() throws Exception {
         CursoResource cursoResource = CursoResourceFixture.buildValido();
 
-        when(cursoService.findById(any())).thenReturn(cursoResource);
+        when(cursoServiceImpl.findById(any())).thenReturn(cursoResource);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/cursos/{id}", cursoResource.getId()))
                 .andExpect(status().isOk())
@@ -80,7 +80,7 @@ public class CursoControllerTest {
         List<CursoResource> cursoResources = List.of(CursoResourceFixture.buildValido());
         Page<CursoResource> paginaCursoResources = new PageImpl<>(cursoResources, pageable, cursoResources.size());
 
-        when(cursoService.findByProfessorId(any(UUID.class), any(Pageable.class))).thenReturn(paginaCursoResources);
+        when(cursoServiceImpl.findByProfessorId(any(UUID.class), any(Pageable.class))).thenReturn(paginaCursoResources);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/cursos/professor/b0eebc99-9c0b-4ef8-bb6d-6bb9bd380b21"))
                 .andExpect(status().isOk())
@@ -96,7 +96,7 @@ public class CursoControllerTest {
         List<CursoResource> cursoResources = List.of(CursoResourceFixture.buildValido());
         Page<CursoResource> paginaCursoResources = new PageImpl<>(cursoResources, pageable, cursoResources.size());
 
-        when(cursoService.findByAlunoId(any(UUID.class), any(Pageable.class))).thenReturn(paginaCursoResources);
+        when(cursoServiceImpl.findByAlunoId(any(UUID.class), any(Pageable.class))).thenReturn(paginaCursoResources);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/cursos/aluno/b0eebc99-9c0b-4ef8-bb6d-6bb9bd380b21"))
                 .andExpect(status().isOk())
@@ -111,7 +111,7 @@ public class CursoControllerTest {
         List<CursoResource> cursoResources = List.of(CursoResourceFixture.buildValido());
         Page<CursoResource> paginaCursoResources = new PageImpl<>(cursoResources, pageable, cursoResources.size());
 
-        when(cursoService.findAll(any(Pageable.class))).thenReturn(paginaCursoResources);
+        when(cursoServiceImpl.findAll(any(Pageable.class))).thenReturn(paginaCursoResources);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/cursos"))
                 .andExpect(status().isOk())
@@ -125,7 +125,7 @@ public class CursoControllerTest {
         CursoResource cursoResource = CursoResourceFixture.buildValido();
         CursoRequest cursoRequest = CursoRequestFixture.buildValido();
 
-        when(cursoService.update(any(Long.class), any(CursoRequest.class))).thenReturn(cursoResource);
+        when(cursoServiceImpl.update(any(Long.class), any(CursoRequest.class))).thenReturn(cursoResource);
 
         mockMvc.perform(MockMvcRequestBuilders.put("/cursos/{id}", cursoResource.getId())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -141,7 +141,7 @@ public class CursoControllerTest {
     void adicionarAlunoTest() throws Exception {
         CursoResource cursoResource = CursoResourceFixture.buildValido();
 
-        when(cursoService.addAluno(any(Long.class), any(UUID.class))).thenReturn(cursoResource);
+        when(cursoServiceImpl.addAluno(any(Long.class), any(UUID.class))).thenReturn(cursoResource);
 
         mockMvc.perform(MockMvcRequestBuilders.patch("/cursos/{id}/add/{alunoId}", cursoResource.getId(), UUID.randomUUID()))
                 .andExpect(status().isOk())
@@ -155,7 +155,7 @@ public class CursoControllerTest {
     void removerAlunoTest() throws Exception {
         CursoResource cursoResource = CursoResourceFixture.buildValido();
 
-        when(cursoService.removeAluno(any(Long.class), any(UUID.class))).thenReturn(cursoResource);
+        when(cursoServiceImpl.removeAluno(any(Long.class), any(UUID.class))).thenReturn(cursoResource);
 
         mockMvc.perform(MockMvcRequestBuilders.patch("/cursos/{id}/remove/{alunoId}", cursoResource.getId(), UUID.randomUUID()))
                 .andExpect(status().isOk())
@@ -169,7 +169,7 @@ public class CursoControllerTest {
     void deletarCursoTest() throws Exception {
         CursoResource cursoResource = CursoResourceFixture.buildValido();
 
-        when(cursoService.delete(any(Long.class))).thenReturn(cursoResource);
+        when(cursoServiceImpl.delete(any(Long.class))).thenReturn(cursoResource);
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/cursos/{id}", cursoResource.getId()))
                 .andExpect(status().isOk())

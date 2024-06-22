@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
-public class ProfessorControllerIntegrationTest {
+class ProfessorControllerIntegrationTest {
 
     @Autowired
     private TestRestTemplate restTemplate;
@@ -38,7 +38,7 @@ public class ProfessorControllerIntegrationTest {
             @Sql(scripts = "/db/restart_ids.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD),
             @Sql(scripts = "/db/insert_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     })
-    public void registrarProfessorTest() {
+    void registrarProfessorTest() {
         ProfessorRequest professorRequest = ProfessorRequestFixture.buildValido();
         HttpEntity<ProfessorRequest> requisicao = new HttpEntity<>(professorRequest);
 
@@ -57,7 +57,7 @@ public class ProfessorControllerIntegrationTest {
             @Sql(scripts = "/db/restart_ids.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD),
             @Sql(scripts = "/db/insert_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     })
-    public void buscarProfessorPorIdTest() {
+    void buscarProfessorPorIdTest() {
         ResponseEntity<ProfessorResource> resposta = restTemplate
                 .getForEntity("http://localhost:" + port + "/professores/"+"a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
                         ProfessorResource.class);
@@ -72,7 +72,7 @@ public class ProfessorControllerIntegrationTest {
             @Sql(scripts = "/db/restart_ids.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD),
             @Sql(scripts = "/db/insert_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     })
-    public void deletarProfessorTest() {
+    void deletarProfessorTest() {
         ResponseEntity<ProfessorResource> resposta = restTemplate
                 .exchange("http://localhost:" + port + "/professores/"+"a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
                         HttpMethod.DELETE,

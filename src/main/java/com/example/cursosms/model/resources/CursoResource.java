@@ -8,6 +8,7 @@ import org.springframework.hateoas.RepresentationModel;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 public class CursoResource extends RepresentationModel<CursoResource> {
     private Long id;
     private String nome;

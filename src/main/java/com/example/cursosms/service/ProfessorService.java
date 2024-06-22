@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.UUID;
 
-public interface IProfessorService {
+public interface ProfessorService {
     ProfessorResource save(ProfessorRequest professorDto);
 
     ProfessorResource findByUsuarioId(UUID usuarioId);

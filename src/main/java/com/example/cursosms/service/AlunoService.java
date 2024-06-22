@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.UUID;
 
-public interface IAlunoService {
+public interface AlunoService {
 
     AlunoResource save(AlunoRequest alunoDto);
 

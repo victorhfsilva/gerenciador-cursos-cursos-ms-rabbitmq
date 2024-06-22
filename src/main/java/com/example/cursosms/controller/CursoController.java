@@ -2,7 +2,7 @@ package com.example.cursosms.controller;
 
 import com.example.cursosms.model.requests.CursoRequest;
 import com.example.cursosms.model.resources.CursoResource;
-import com.example.cursosms.service.ICursoService;
+import com.example.cursosms.service.CursoService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -22,7 +22,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @AllArgsConstructor
 public class CursoController {
 
-    private ICursoService cursoService;
+    private CursoService cursoService;
     private PagedResourcesAssembler<CursoResource> pagedResourceAssembler;
 
     @PostMapping

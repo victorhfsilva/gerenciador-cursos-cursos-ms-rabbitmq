@@ -2,13 +2,12 @@ package com.example.cursosms.service.impl;
 
 import com.example.cursosms.controller.CursoController;
 import com.example.cursosms.controller.ProfessorController;
-import com.example.cursosms.mapper.ProfessorProfessorRequestMapper;
-import com.example.cursosms.mapper.ProfessorProfessorResourceMapper;
+import com.example.cursosms.mapper.ProfessorMapper;
 import com.example.cursosms.model.Professor;
 import com.example.cursosms.model.requests.ProfessorRequest;
 import com.example.cursosms.model.resources.ProfessorResource;
 import com.example.cursosms.repository.ProfessorRepository;
-import com.example.cursosms.service.IProfessorService;
+import com.example.cursosms.service.ProfessorService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -22,18 +21,17 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Service
 @AllArgsConstructor
-public class ProfessorService implements IProfessorService {
+public class ProfessorServiceImpl implements ProfessorService {
 
     private ProfessorRepository professorRepository;
-    private ProfessorProfessorRequestMapper professorProfessorRequestMapper;
-    private ProfessorProfessorResourceMapper professorProfessorResourceMapper;
+    private ProfessorMapper professorMapper;
 
     public ProfessorResource save(ProfessorRequest professorDto) {
-        Professor professor = professorProfessorRequestMapper.professorRequestToProfessor(professorDto);
+        Professor professor = professorMapper.map(professorDto);
         Professor professorSalvo = professorRepository.save(professor);
 
-        ProfessorResource professorResource = professorProfessorResourceMapper
-                .professorToProfessorResource(professorSalvo);
+        ProfessorResource professorResource = professorMapper
+                .map(professorSalvo);
 
         professorResource.add(linkTo(methodOn(ProfessorController.class).registrarProfessor(professorDto)).withSelfRel());
         professorResource.add(linkTo(methodOn(CursoController.class).buscarCursosPorProfessorId(professorDto.usuarioId(), Pageable.unpaged())).withRel("cursos"));
@@ -44,8 +42,8 @@ public class ProfessorService implements IProfessorService {
     public ProfessorResource findByUsuarioId(UUID usuarioId) {
         Professor professor = professorRepository.findByUsuarioId(usuarioId).orElseThrow();
 
-        ProfessorResource professorResource = professorProfessorResourceMapper
-                .professorToProfessorResource(professor);
+        ProfessorResource professorResource = professorMapper
+                .map(professor);
 
         professorResource.add(linkTo(methodOn(ProfessorController.class).buscarProfessorPorId(usuarioId)).withSelfRel());
         professorResource.add(linkTo(methodOn(CursoController.class).buscarCursosPorProfessorId(professor.getUsuarioId(), Pageable.unpaged())).withRel("cursos"));
@@ -56,17 +54,16 @@ public class ProfessorService implements IProfessorService {
     public Page<ProfessorResource> findAll(Pageable pageable) {
         Page<Professor> professors = professorRepository.findAll(pageable);
 
-        Page<ProfessorResource> professorResources = professors
+        return professors
                 .map(professor ->
-                        professorProfessorResourceMapper
-                                .professorToProfessorResource(professor)
+                        professorMapper
+                                .map(professor)
                                 .add(linkTo(methodOn(ProfessorController.class)
                                         .buscarProfessorPorId(professor.getUsuarioId())).withSelfRel())
                                 .add(linkTo(methodOn(CursoController.class)
                                         .buscarCursosPorProfessorId(professor.getUsuarioId(), Pageable.unpaged()))
                                         .withRel("curso")));
 
-        return professorResources;
     }
 
     @Transactional
@@ -75,8 +72,8 @@ public class ProfessorService implements IProfessorService {
 
         professorRepository.delete(professor);
 
-        ProfessorResource professorResource = professorProfessorResourceMapper
-                .professorToProfessorResource(professor);
+        ProfessorResource professorResource = professorMapper
+                .map(professor);
 
         professorResource.add(linkTo(methodOn(ProfessorController.class).deletarProfessor(id)).withSelfRel());
 

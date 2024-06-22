@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
-public class CursoControllerIntegrationTest {
+class CursoControllerIntegrationTest {
 
     @Autowired
     private TestRestTemplate restTemplate;
@@ -48,7 +48,7 @@ public class CursoControllerIntegrationTest {
             @Sql(scripts = "/db/restart_ids.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD),
             @Sql(scripts = "/db/insert_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     })
-    public void registrarCursoTest() {
+    void registrarCursoTest() {
         ProfessorRequest professorRequest = ProfessorRequestFixture.buildValido();
         HttpEntity<ProfessorRequest> requisicaoProfessor = new HttpEntity<>(professorRequest);
 
@@ -77,7 +77,7 @@ public class CursoControllerIntegrationTest {
             @Sql(scripts = "/db/restart_ids.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD),
             @Sql(scripts = "/db/insert_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     })
-    public void buscarCursoPorIdTest() {
+    void buscarCursoPorIdTest() {
         ResponseEntity<CursoResource> resposta = restTemplate
                 .getForEntity("http://localhost:" + port + "/cursos/" + 1,
                         CursoResource.class);
@@ -94,7 +94,7 @@ public class CursoControllerIntegrationTest {
             @Sql(scripts = "/db/restart_ids.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD),
             @Sql(scripts = "/db/insert_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     })
-    public void atualizarCursoTest(){
+    void atualizarCursoTest(){
         ProfessorRequest professorRequest = ProfessorRequestFixture.buildValido();
         HttpEntity<ProfessorRequest> requisicaoProfessor = new HttpEntity<>(professorRequest);
 
@@ -124,7 +124,7 @@ public class CursoControllerIntegrationTest {
             @Sql(scripts = "/db/restart_ids.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD),
             @Sql(scripts = "/db/insert_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     })
-    public void adicionarAlunoTest(){
+    void adicionarAlunoTest(){
         ResponseEntity<CursoResource> resposta = restTemplate
                 .exchange("http://localhost:" + port + "/cursos/1/add/b3eebc99-9c0b-4ef8-bb6d-6bb9bd380b24",
                         HttpMethod.PATCH,
@@ -143,7 +143,7 @@ public class CursoControllerIntegrationTest {
             @Sql(scripts = "/db/restart_ids.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD),
             @Sql(scripts = "/db/insert_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     })
-    public void removerAlunoTest(){
+    void removerAlunoTest(){
         ResponseEntity<CursoResource> resposta = restTemplate
                 .exchange("http://localhost:" + port + "/cursos/1/remove/b0eebc99-9c0b-4ef8-bb6d-6bb9bd380b21",
                         HttpMethod.PATCH,
@@ -162,7 +162,7 @@ public class CursoControllerIntegrationTest {
             @Sql(scripts = "/db/restart_ids.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD),
             @Sql(scripts = "/db/insert_data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     })
-    public void deletarCursoTest() {
+    void deletarCursoTest() {
         ResponseEntity<CursoResource> resposta = restTemplate
                 .exchange("http://localhost:" + port + "/cursos/" + 1,
                         HttpMethod.DELETE,

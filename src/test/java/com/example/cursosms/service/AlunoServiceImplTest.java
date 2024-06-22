@@ -3,13 +3,12 @@ package com.example.cursosms.service;
 import com.example.cursosms.fixture.AlunoFixture;
 import com.example.cursosms.fixture.AlunoRequestFixture;
 import com.example.cursosms.fixture.AlunoResourceFixture;
-import com.example.cursosms.mapper.AlunoAlunoRequestMapper;
-import com.example.cursosms.mapper.AlunoAlunoResourceMapper;
+import com.example.cursosms.mapper.AlunoMapper;
 import com.example.cursosms.model.Aluno;
 import com.example.cursosms.model.requests.AlunoRequest;
 import com.example.cursosms.model.resources.AlunoResource;
 import com.example.cursosms.repository.AlunoRepository;
-import com.example.cursosms.service.impl.AlunoService;
+import com.example.cursosms.service.impl.AlunoServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -28,19 +27,16 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class AlunoServiceTest {
+class AlunoServiceImplTest {
 
     @InjectMocks
-    private AlunoService alunoService;
+    private AlunoServiceImpl alunoServiceImpl;
 
     @Mock
     private AlunoRepository alunoRepository;
 
     @Mock
-    private AlunoAlunoResourceMapper alunoAlunoResourceMapper;
-
-    @Mock
-    private AlunoAlunoRequestMapper alunoAlunoRequestMapper;
+    private AlunoMapper alunoMapper;
 
     @Test
     void saveTest(){
@@ -48,11 +44,11 @@ public class AlunoServiceTest {
         Aluno aluno = AlunoFixture.buildValido();
         AlunoResource alunoResource = AlunoResourceFixture.buildValido();
 
-        when(alunoAlunoRequestMapper.alunoRequestToAluno(alunoRequest)).thenReturn(aluno);
+        when(alunoMapper.map(alunoRequest)).thenReturn(aluno);
         when(alunoRepository.save(any(Aluno.class))).thenReturn(aluno);
-        when(alunoAlunoResourceMapper.alunoToAlunoResource(aluno)).thenReturn(alunoResource);
+        when(alunoMapper.map(aluno)).thenReturn(alunoResource);
 
-        AlunoResource alunoResourceSalvo = alunoService.save(alunoRequest);
+        AlunoResource alunoResourceSalvo = alunoServiceImpl.save(alunoRequest);
 
         assertEquals(alunoResourceSalvo.getUsuarioId(), alunoRequest.usuarioId());
     }
@@ -63,9 +59,9 @@ public class AlunoServiceTest {
         AlunoResource alunoResource = AlunoResourceFixture.buildValido();
 
         when(alunoRepository.findByUsuarioId(aluno.getUsuarioId())).thenReturn(Optional.of(aluno));
-        when(alunoAlunoResourceMapper.alunoToAlunoResource(aluno)).thenReturn(alunoResource);
+        when(alunoMapper.map(aluno)).thenReturn(alunoResource);
 
-        AlunoResource alunoResourceSalvo = alunoService.findByUsuarioId(aluno.getUsuarioId());
+        AlunoResource alunoResourceSalvo = alunoServiceImpl.findByUsuarioId(aluno.getUsuarioId());
 
         assertEquals(alunoResourceSalvo.getUsuarioId(), aluno.getUsuarioId());
     }
@@ -77,9 +73,9 @@ public class AlunoServiceTest {
         AlunoResource alunoResource = AlunoResourceFixture.buildValido();
 
         when(alunoRepository.findAlunosByCursoId(aluno.getCursos().get(0).getId(), pageable)).thenReturn(new PageImpl<>(List.of(aluno)));
-        when(alunoAlunoResourceMapper.alunoToAlunoResource(aluno)).thenReturn(alunoResource);
+        when(alunoMapper.map(aluno)).thenReturn(alunoResource);
 
-        Page<AlunoResource> alunoResources = alunoService.findAlunosByCursoId(aluno.getCursos().get(0).getId(), pageable);
+        Page<AlunoResource> alunoResources = alunoServiceImpl.findAlunosByCursoId(aluno.getCursos().get(0).getId(), pageable);
 
         assertEquals(alunoResources.getContent().get(0).getUsuarioId(), aluno.getUsuarioId());
     }
@@ -91,9 +87,9 @@ public class AlunoServiceTest {
         AlunoResource alunoResource = AlunoResourceFixture.buildValido();
 
         when(alunoRepository.findAll(pageable)).thenReturn(new PageImpl<>(List.of(aluno)));
-        when(alunoAlunoResourceMapper.alunoToAlunoResource(aluno)).thenReturn(alunoResource);
+        when(alunoMapper.map(aluno)).thenReturn(alunoResource);
 
-        Page<AlunoResource> alunoResources = alunoService.findAll(pageable);
+        Page<AlunoResource> alunoResources = alunoServiceImpl.findAll(pageable);
 
         assertEquals(alunoResources.getContent().get(0).getUsuarioId(), aluno.getUsuarioId());
     }
@@ -104,9 +100,9 @@ public class AlunoServiceTest {
         AlunoResource alunoResource = AlunoResourceFixture.buildValido();
 
         when(alunoRepository.findByUsuarioId(aluno.getUsuarioId())).thenReturn(Optional.of(aluno));
-        when(alunoAlunoResourceMapper.alunoToAlunoResource(aluno)).thenReturn(alunoResource);
+        when(alunoMapper.map(aluno)).thenReturn(alunoResource);
 
-        AlunoResource alunoResourceSalvo = alunoService.delete(aluno.getUsuarioId());
+        AlunoResource alunoResourceSalvo = alunoServiceImpl.delete(aluno.getUsuarioId());
 
         assertEquals(alunoResourceSalvo.getUsuarioId(), aluno.getUsuarioId());
     }
